@@ -74,9 +74,28 @@ def get_selected_row(event):
     except IndexError:
         pass
 
-#def update_command():
-#     ledger_bk.update(selected_tuple[0],account_num.get(),name.get(),password.get(),money.get())
-#     view_command()
+def deposit_command():#입금
+    a = ledger_bk.search(account_num.get(), name.get(), password.get())
+    #print(a)
+    b = int(a[0][3]) + int(money.get())
+    #print(type(b))
+    ledger_bk.update(name.get(),account_num.get(),b)
+    lb.delete(0,END)
+    lb.insert(END,"입금이 완료되었습니다.")
+    #view_command()
+
+def withdraw_command():#출금
+    c = ledger_bk.search(account_num.get(), name.get(), password.get())
+    d = int(c[0][3])
+    if (d >= int(money.get())):
+        e = int(c[0][3] - int(money.get()))
+        ledger_bk.update(name.get(), account_num.get(),e)
+        lb.delete(0,END)
+        lb.insert(END,"출금이 완료되었습니다.")
+    else :
+        lb.delete(0,END)
+        msgbox.showerror("에러", "금액이 부족하여 출금할 수 없습니다.")
+    #view_command()
 
 def delete_command():
     ledger_bk.delete(selected_tuple[0])
@@ -93,11 +112,11 @@ def clear_command():
 
 l1 = Label(window,text="성명")
 l1.grid(row=0,column=0,columnspan=2)
-# l2 = Label(window,text="Username/Email")
-# l2.grid(row=1,column=0,columnspan=2)
+l2 = Label(window,text="계좌번호")
+l2.grid(row=1,column=0,columnspan=2)
 l3 = Label(window,text="비밀번호")
 l3.grid(row=2,column=0,columnspan=2)
-l4 = Label(window,text="잔고")
+l4 = Label(window,text="금액")
 l4.grid(row=3,column=0,columnspan=2)
 # l5 = Label(window,text="Date")
 # l5.grid(row=4,column=0,columnspan=2)
@@ -106,9 +125,9 @@ name=StringVar()
 e1 = Entry(window,textvariable=name,width=50)
 e1.grid(row=0,column=0,columnspan=10)
 
-# user=StringVar()
-# e2 = Entry(window,textvariable=user,width=50)
-# e2.grid(row=1,column=0,columnspan=10)
+account_num=StringVar()
+e2 = Entry(window,textvariable=account_num,width=50)
+e2.grid(row=1,column=0,columnspan=10)
 
 password=StringVar()
 e3 = Entry(window,textvariable=password,width=50)
@@ -126,23 +145,26 @@ b1 = Button(window,text="계좌생성",width=12,command=add_command)
 #Button(윈도우 창, 파라미터, ...)
 b1.grid(row=5,column=0)
 
-#b2 = Button(window,text="deposit",width=12,command=update_command)
-#b2.grid(row=5,column=1)
+b2 = Button(window,text="계좌폐기",width=12,command=delete_command)
+b2.grid(row=5,column=1)
 
-#b3 = Button(window,text="withdraw",width=12,command=update_command)
-#b3.grid(row=5,column=2)
+b3 = Button(window,text="계좌검색",width=12,command=view_command)
+b3.grid(row=5,column=2)
 
-b4 = Button(window,text="계좌검색",width=12,command=view_command)
+b4 = Button(window,text="입금",width=12,command=deposit_command)
 b4.grid(row=5,column=3)
 
-b5 = Button(window,text="계좌폐기",width=12,command=delete_command)
+b5 = Button(window,text="출금",width=12,command=withdraw_command)
 b5.grid(row=5,column=4)
 
-b6 = Button(window,text="나가기",width=12,command=window.destroy)
+b6 = Button(window,text="계좌이체",width=12)#,command=?_command)
 b6.grid(row=5,column=5)
 
 b7 = Button(window,text="초기화",width=12,command=clear_command)
 b7.grid(row=0,column=5)
+
+b8 = Button(window,text="나가기",width=12,command=window.destroy)
+b8.grid(row=5,column=6)
 
 lb=Listbox(window,height=20,width=94)
 lb.grid(row=6,column=0,columnspan=6)
