@@ -15,14 +15,6 @@ def viewall():
     con.close()
     return rows
 
-#def search(name="",user="",password="",category=""):
-#    con = sqlite3.connect("aledger.db")
-#    cur = con.cursor()
-#    cur.execute("SELECT * FROM account WHERE name=? OR user=? OR password=? OR category=?",(name,user,password,category))
-#    rows = cur.fetchall()
-#    con.close()
-#    return rows
-
 def search(account_num="",name="",password=""):
     con = sqlite3.connect("aledger.db")
     cur = con.cursor()
@@ -37,20 +29,20 @@ def add(account_num, name, password, money):
     cur.execute("INSERT INTO account VALUES(?,?,?,?)",(account_num, name, password, money))
     con.commit()
     con.close()
-    
-#def update(account,name,password,money):
-    #con = sqlite3.connect("aledger.db")
-    #cur = con.cursor()
-    #cur.execute("UPDATE account SET account_num=?, name=?,password=?,money=?",(account_num, name, password, money))
-    #con.commit()
-    #con.close()
 
 def update(name,account_num, money):
-   con = sqlite3.connect("aledger.db")
-   cur = con.cursor()
-   cur.execute("UPDATE account SET money = '%d' WHERE name = '%s' AND account_num = '%s'" % (money, name, account_num))
-   con.commit()
-   con.close()
+    con = sqlite3.connect("aledger.db")
+    cur = con.cursor()
+    cur.execute("UPDATE account SET money = '%d' WHERE name = '%s' AND account_num = '%s'" % (money, name, account_num))
+    con.commit()
+    con.close()
+
+def update2(account_num, money):#계좌이체용
+    con = sqlite3.connect("aledger.db")
+    cur = con.cursor()
+    cur.execute("UPDATE account SET money = '%d' WHERE account_num = '%s'" % (money, account_num))
+    con.commit()
+    con.close()  
 
 def delete(account_num):
     con = sqlite3.connect("aledger.db")
