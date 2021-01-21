@@ -32,6 +32,7 @@ def view_command(): # 이름을 입력해 해당 이름으로 등록된 계좌�
     lb.delete(0,END) #0항목부터 END까지 삭제
     for row in ledger_bk.viewall(): #ledger_bk파일에 있는 viewall()함수 이용
         if name.get() in row : # 입력한 이름으로 등록된 계좌 찾기
+            print(row)
             lb.insert(END,row) #lb(리스트박스) 끝에서부터 하나씩 DB에 있는 정보 하나씩 기입
 
 # def search_command():
